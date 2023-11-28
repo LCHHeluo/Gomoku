@@ -10,6 +10,7 @@ namespace Gomoku
     internal class Board
     {
         private static readonly Point NO_MATCH_NODE = new Point(-1, -1);
+        private static readonly int NODE_COUNT = 9;
 
         private Piece[,] piecesArr = new Piece[9, 9];
 
@@ -60,11 +61,11 @@ namespace Gomoku
         {
             int nodeIdX = FindTheCloseNode(x);
             int nodeIdY = FindTheCloseNode(y);
-            if (nodeIdX == -1)
+            if (nodeIdX == -1 || nodeIdX >= NODE_COUNT)
             {
                 return NO_MATCH_NODE;
             }
-            if (nodeIdY == -1)
+            if (nodeIdY == -1 || nodeIdY >= NODE_COUNT)
             {
                 return NO_MATCH_NODE;
             }
