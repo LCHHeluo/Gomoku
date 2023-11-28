@@ -18,14 +18,25 @@ namespace Gomoku
         private static readonly int NODE_RADIUS = 10;
         private static readonly int NODE_DISTANACE = 75;
 
+        public PieceType GetPieceType(int nodeIdX, int nodeIdY)
+        {
+            if (piecesArr[nodeIdX, nodeIdY] == null)
+                return PieceType.NONE;
+            else
+                return piecesArr[nodeIdX, nodeIdY].GetPieceType();
+        }
+
         public bool CanBePlace(int cursorX, int cursorY)
         {
             //ToDo: 計算滑鼠離哪個交叉點比較近
             Point nodeId = FindTheCloseNode(cursorX, cursorY);
             //TODO: 如果否，回傳false
-            if (nodeId == NO_MATCH_NODE) return false;
-            if (piecesArr[nodeId.X, nodeId.Y] != null) return false;
-            else return true;
+            if (nodeId == NO_MATCH_NODE)
+                return false;
+            if (piecesArr[nodeId.X, nodeId.Y] != null)
+                return false;
+            else
+                return true;
             //ToDo: 判斷該點上有沒有棋子，
             //TODO: 如果是，回傳false
             //ToDo: 如果否，回傳交叉點座標並生成棋子
@@ -34,8 +45,10 @@ namespace Gomoku
         {
             Point nodeId = FindTheCloseNode(cursorX, cursorY);
 
-            if (nodeId == NO_MATCH_NODE) return null;
-            if (piecesArr[nodeId.X,nodeId.Y] != null) return null;
+            if (nodeId == NO_MATCH_NODE)
+                return null;
+            if (piecesArr[nodeId.X,nodeId.Y] != null)
+                return null;
 
             Point formPos = ConverToFormPosition(nodeId);
             if (type == PieceType.BLACK)
