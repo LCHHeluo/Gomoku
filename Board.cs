@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Gomoku
 {
@@ -17,6 +19,8 @@ namespace Gomoku
         private static readonly int BOUNDARY = 75;
         private static readonly int NODE_RADIUS = 10;
         private static readonly int NODE_DISTANACE = 75;
+
+        //private Point currentNodeId;//當前的棋子點位座標
 
         public PieceType GetPieceType(int nodeIdX, int nodeIdY)
         {
@@ -70,7 +74,7 @@ namespace Gomoku
             return formPosition;
         }
 
-        private Point FindTheCloseNode(int x, int y)
+        private Point FindTheCloseNode(int x, int y)//取得nodeId的方法
         {
             int nodeIdX = FindTheCloseNode(x);
             int nodeIdY = FindTheCloseNode(y);
@@ -108,6 +112,105 @@ namespace Gomoku
             {
                 return -1;
             }
+        }
+
+        public void ConnectCheck(int cursorX, int cursorY)//輸入當前棋子位於棋盤矩陣的編號
+        {
+            //方法1
+            //TODO:取得點擊當下的棋盤座標轉換成棋子的點位座標
+            //TODO:用迴圈一次判斷每一顆棋子(pieceArr[x,y])和對應的行、列以及對角有沒有連續重複
+
+            //TODO:每次顏色一樣的話，連線計數器(connectCounter)就+1
+            //TODO:如果遇到不同顏色的話(包含沒有棋子)，斷線檢查器(disconnectChecker)就設定為true
+            /*TODO:每次一顆棋子和其他80個棋子判定完後，如果connectCounter>=5並且disconnectChecker為false則
+            為勝利檢查器(winningChecker)就設定為true*/
+            //TODO:
+
+
+            //方法2
+            int connectCounter = 0;
+            bool disconnectChecker = true;
+
+            //TODO:取得點擊當下的棋盤座標轉換成棋子的點位座標(pieceArr[x,y])
+            Point currentPiece = FindTheCloseNode(cursorX, cursorY);
+            //TODO:將點位編號丟進連線範圍轉換()進行可能連線的範圍上下限的取值，例如:x+-4，並且規定範圍在0~8之間
+            int nodeIdXMax = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Max);
+            int nodeIdXMin = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Min);
+            int nodeIdYMax = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Max);
+            int nodeIdYMin = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Min);
+
+            //TODO:用迴圈一次判斷每一顆棋子(pieceArr[x,y])和對應的行、列以及對角有沒有連續重複
+            //TODO:檢測範圍是當前棋子的前後4個延伸，但檢測的棋子只要停在當前棋子就好，如果檢測方向已經到當前棋子後還沒有連線，就不可能再連下去了，因為剩下的棋子不足五顆
+            //TODO:因此最多檢測五顆就好，每個方向五顆，四個方向檢測20顆最多(正中心)，最少檢測3個方向，檢測3顆(左上角)
+            for (int i = nodeIdXMin; i <=currentPiece.X; i++)//i是當前棋子編號
+            {
+                if (piecesArr[i, currentPiece.Y] != null)
+                {
+                    for (int j = i + 1; j < 4; j++)//j是正在被比較的棋子的編號
+                    {
+                        if (piecesArr[j, currentPiece.Y] != null)
+                        {
+                            
+                            //if (piecesArr[i, currentPiece.Y].GetPieceType() == piecesArr[j, currentPiece.Y].GetPieceType())
+                            if (GetPieceType(i, currentPiece.Y) == GetPieceType(j, currentPiece.Y))
+                            {
+                                disconnectChecker = false;
+                                connectCounter++;
+                            }
+                            else
+                            {
+                                connectCounter = 0;
+                                disconnectChecker = true;
+                            }
+                        }
+                        else
+                        {
+                            connectCounter = 0;
+                            disconnectChecker = true;
+                        }
+                    }
+                }
+                else
+                {
+                    connectCounter = 0;
+                    disconnectChecker = true;
+                }
+
+            }
+            if (disconnectChecker != true && connectCounter >= 4)
+            {
+                MessageBox.Show("贏了");
+            }
+
+            //TODO:每次顏色一樣的話，連線計數器(connectCounter)就+1
+            //TODO:如果遇到不同顏色的話(包含沒有棋子)，斷線檢查器(disconnectChecker)就設定為true
+            //TODO:連線範圍內的每顆棋子往下做連線判定如果該顆棋子沒有讓勝利檢查器設定為true就繼續讓下一顆棋子往下做檢測但不用往回做檢測
+
+
+            
+        }
+        private int ConnectRangeConverter(int nodeId, ConnectRangeDirection direction)
+        {
+            //TODO:將點位編號丟進連線範圍轉換()進行可能連線的範圍上下限的取值，例如:x+-4，並且規定範圍在0~8之間
+            switch (direction)
+            {
+                case ConnectRangeDirection.Max:
+                    int nodeIdMax;
+                    if (nodeId + 4 > 8)
+                        nodeIdMax = 8;
+                    else
+                        nodeIdMax = nodeId + 4;
+                    return nodeIdMax;
+
+                case ConnectRangeDirection.Min:
+                    int nodeIdMin;
+                    if (nodeId - 4 < 0)
+                        nodeIdMin = 0;
+                    else
+                        nodeIdMin = nodeId - 4;
+                    return nodeIdMin;
+            }
+            return -1;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,5 +32,13 @@ namespace Gomoku
             else 
                 return null;
         }
+
+        
+        public void CheckWinner(int x,int y)
+        {
+            board.ConnectCheck(x,y);
+        }
+    
+    
     }
 }

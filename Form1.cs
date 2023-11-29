@@ -24,6 +24,7 @@ namespace Gomoku
             Piece piece = gm.PlaceAPiece(e.X, e.Y);
             if (piece != null)
                 this.Controls.Add(piece);
+            gm.CheckWinner(e.X, e.Y);
         }
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
