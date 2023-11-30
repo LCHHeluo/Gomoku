@@ -142,36 +142,37 @@ namespace Gomoku
             //TODO:用迴圈一次判斷每一顆棋子(pieceArr[x,y])和對應的行、列以及對角有沒有連續重複
             //TODO:檢測範圍是當前棋子的前後4個延伸，但檢測的棋子只要停在當前棋子就好，如果檢測方向已經到當前棋子後還沒有連線，就不可能再連下去了，因為剩下的棋子不足五顆
             //TODO:因此最多檢測五顆就好，每個方向五顆，四個方向檢測20顆最多(正中心)，最少檢測3個方向，檢測3顆(左上角)
-            for (int i = nodeIdXMin; i <=currentPiece.X; i++)//i是應檢棋子編號
+            bool bugLogSwitch = false;
+            for (int i = nodeIdXMin; i <= currentPiece.X; i++)//i是應檢棋子編號
             {
                 if (piecesArr[i, currentPiece.Y] != null)
                 {
-                    //MessageBox.Show("該行的"+i+ "號位子有應檢棋子");
-                    for (int j = i + 1; j < nodeIdXMax + 1 && j < i+5; j++)//j是正在被比較的棋子的編號
+                    BugLog("該行的" + i + "號位子有應檢棋子", bugLogSwitch);
+                    for (int j = i + 1; j <= nodeIdXMax && j <= i+4; j++)//j是正在被比較的棋子的編號
                     {
-                        //MessageBox.Show("該行的" + i + "號應檢棋子準備比較");
+                        BugLog("該行的" + i + "號應檢棋子準備比較", bugLogSwitch);
                         if (piecesArr[j, currentPiece.Y] != null)
                         {
-                            //MessageBox.Show("該行的" + i + "號應檢棋子的右邊第" + (j - i) + "個位子有棋子");
+                            BugLog("該行的" + i + "號應檢棋子的右邊第" + (j - i) + "個位子有棋", bugLogSwitch);
                             //if (piecesArr[i, currentPiece.Y].GetPieceType() == piecesArr[j, currentPiece.Y].GetPieceType())
                             if (GetPieceType(i, currentPiece.Y) == GetPieceType(j, currentPiece.Y))
                             {
-                                //MessageBox.Show("應檢棋子與應檢棋子的右邊第" + (j - i) + "顆同色");
+                                BugLog("應檢棋子與應檢棋子的右邊第" + (j - i) + "顆同色", bugLogSwitch);
                                 connectCounter++;
                                 disconnectChecker = false;
-                                //MessageBox.Show("目前累積連線顆數:" + (1 + connectCounter) + "顆");
+                                BugLog("目前累積連線顆數:" + (1 + connectCounter) + "顆", bugLogSwitch);
                             }
                             else
                             {
-                                //MessageBox.Show("應檢棋子與應檢棋子的右邊第" + (j - i) + "顆不同色");
+                                BugLog("應檢棋子與應檢棋子的右邊第" + (j - i) + "顆不同色", bugLogSwitch);
                                 connectCounter = 0;
                                 disconnectChecker = true;
-                                //MessageBox.Show("目前累積連線顆數:" + (1 + connectCounter) + "顆");
+                                BugLog("目前累積連線顆數:" + (1 + connectCounter) + "顆", bugLogSwitch);
                             }
                         }
                         else
                         {
-                            //MessageBox.Show("該行的" + i + "號應檢棋子的右邊第" + (j - i) + "個位子沒有棋子");
+                            BugLog("該行的" + i + "號應檢棋子的右邊第" + (j - i) + "個位子沒有棋子", bugLogSwitch);
                             connectCounter = 0;
                             disconnectChecker = true;
                         }
@@ -179,35 +180,31 @@ namespace Gomoku
                 }
                 else
                 {
-                    //MessageBox.Show("該行的" + i + "號位子沒有應檢棋子");
+                    BugLog("該行的" + i + "號位子沒有應檢棋子", bugLogSwitch);
                     connectCounter = 0;
                     disconnectChecker = true;
                 }
 
-                //MessageBox.Show("該行的" + i + "號應檢棋子判斷完畢");
-                //MessageBox.Show("該行的" + i + "號應檢棋子總連線顆數:" + (1 + connectCounter) + "顆");
+                BugLog("該行的" + i + "號應檢棋子判斷完畢", bugLogSwitch);
+                BugLog("該行的" + i + "號應檢棋子總連線顆數:" + (1 + connectCounter) + "顆", bugLogSwitch);
                 if (disconnectChecker != true && connectCounter == 4)
                 {
-                    MessageBox.Show("贏了");
+                    BugLog("贏了", bugLogSwitch,true);
                     connectCounter = 0;
                     disconnectChecker = true;
                     break;
                 }
                 else
                 {
-                    //MessageBox.Show("該行的" + i + "號應檢棋子沒有連線");
+                    BugLog("該行的" + i + "號應檢棋子沒有連線", bugLogSwitch);
                     connectCounter = 0;
                     disconnectChecker = true;
                 }
             }
-            
 
             //TODO:每次顏色一樣的話，連線計數器(connectCounter)就+1
             //TODO:如果遇到不同顏色的話(包含沒有棋子)，斷線檢查器(disconnectChecker)就設定為true
             //TODO:連線範圍內的每顆棋子往下做連線判定如果該顆棋子沒有讓勝利檢查器設定為true就繼續讓下一顆棋子往下做檢測但不用往回做檢測
-
-
-            
         }
         private int ConnectRangeConverter(int nodeId, ConnectRangeDirection direction)
         {
@@ -231,6 +228,22 @@ namespace Gomoku
                     return nodeIdMin;
             }
             return -1;
+        }
+
+        private void BugLog(string txt,bool enable)
+        {
+            if (enable)
+            {
+                MessageBox.Show(txt);
+            }
+        }
+        private void BugLog(string txt, bool enable,bool independent)
+        {
+            enable = independent;
+            if (enable)
+            {
+                MessageBox.Show(txt);
+            }
         }
     }
 }
