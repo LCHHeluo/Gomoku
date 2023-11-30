@@ -146,31 +146,32 @@ namespace Gomoku
             {
                 if (piecesArr[i, currentPiece.Y] != null)
                 {
-                    MessageBox.Show("當前棋子的同行第"+i+ "個位子有應檢棋子");
-                    for (int j = i + 1; j < nodeIdXMax+1; j++)//j是正在被比較的棋子的編號
+                    //MessageBox.Show("該行的"+i+ "號位子有應檢棋子");
+                    for (int j = i + 1; j < nodeIdXMax + 1 && j < i+5; j++)//j是正在被比較的棋子的編號
                     {
-                        MessageBox.Show("當前棋子的同行第" + i + "個應檢棋子準備比較");
+                        //MessageBox.Show("該行的" + i + "號應檢棋子準備比較");
                         if (piecesArr[j, currentPiece.Y] != null)
                         {
-                            MessageBox.Show("當前棋子的同行第" + i + "個位子的應檢棋子的右邊第" + (j - i) + "個位子有棋子");
+                            //MessageBox.Show("該行的" + i + "號應檢棋子的右邊第" + (j - i) + "個位子有棋子");
                             //if (piecesArr[i, currentPiece.Y].GetPieceType() == piecesArr[j, currentPiece.Y].GetPieceType())
                             if (GetPieceType(i, currentPiece.Y) == GetPieceType(j, currentPiece.Y))
                             {
-                                disconnectChecker = false;
+                                //MessageBox.Show("應檢棋子與應檢棋子的右邊第" + (j - i) + "顆同色");
                                 connectCounter++;
-                                MessageBox.Show("當前與下" + (j - i) + "顆相同");
+                                disconnectChecker = false;
+                                //MessageBox.Show("目前累積連線顆數:" + (1 + connectCounter) + "顆");
                             }
                             else
                             {
-                                
-                                MessageBox.Show("當前與下" + (j - i) + "顆不相同");
+                                //MessageBox.Show("應檢棋子與應檢棋子的右邊第" + (j - i) + "顆不同色");
                                 connectCounter = 0;
                                 disconnectChecker = true;
+                                //MessageBox.Show("目前累積連線顆數:" + (1 + connectCounter) + "顆");
                             }
                         }
                         else
                         {
-                            MessageBox.Show("當前棋子的同行第" + i + "個位子的應檢棋子的右邊第" + (j - i) + "個位子沒有棋子");
+                            //MessageBox.Show("該行的" + i + "號應檢棋子的右邊第" + (j - i) + "個位子沒有棋子");
                             connectCounter = 0;
                             disconnectChecker = true;
                         }
@@ -178,22 +179,23 @@ namespace Gomoku
                 }
                 else
                 {
-                    MessageBox.Show("當前棋子的同行第" + i + "個位子沒有應檢棋子");
+                    //MessageBox.Show("該行的" + i + "號位子沒有應檢棋子");
                     connectCounter = 0;
                     disconnectChecker = true;
                 }
 
-                MessageBox.Show("當前棋子的同行的"+ i +"號應檢棋子判斷完畢");
-                MessageBox.Show("當前棋子的同行的" + i + "號應檢棋子連線顆數:"+connectCounter+"顆");
-                if (disconnectChecker != true && connectCounter >= 4)
+                //MessageBox.Show("該行的" + i + "號應檢棋子判斷完畢");
+                //MessageBox.Show("該行的" + i + "號應檢棋子總連線顆數:" + (1 + connectCounter) + "顆");
+                if (disconnectChecker != true && connectCounter == 4)
                 {
                     MessageBox.Show("贏了");
                     connectCounter = 0;
                     disconnectChecker = true;
+                    break;
                 }
                 else
                 {
-                    MessageBox.Show("當前棋子的同行的" + i + "號應檢棋子沒有連線");
+                    //MessageBox.Show("該行的" + i + "號應檢棋子沒有連線");
                     connectCounter = 0;
                     disconnectChecker = true;
                 }
