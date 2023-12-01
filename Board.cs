@@ -114,89 +114,6 @@ namespace Gomoku
             }
         }
 
-        public void ConnectCheck(int cursorX, int cursorY)//輸入當前棋子位於棋盤矩陣的編號
-        {
-            //方法
-            int connectCounter = 0;
-            bool disconnectChecker = true;
-
-            //TODO:取得點擊當下的棋盤座標轉換成棋子的點位座標(pieceArr[x,y])
-            Point currentPiece = FindTheCloseNode(cursorX, cursorY);
-            //TODO:將點位編號丟進連線範圍轉換()進行可能連線的範圍上下限的取值，例如:x+-4，並且規定範圍在0~8之間
-            int nodeIdXMax = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Max);
-            int nodeIdXMin = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Min);
-            int nodeIdYMax = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Max);
-            int nodeIdYMin = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Min);
-
-            //TODO:用迴圈一次判斷每一顆棋子(pieceArr[x,y])和對應的行、列以及對角有沒有連續重複
-            //TODO:檢測範圍是當前棋子的前後4個延伸，但檢測的棋子只要停在當前棋子就好，如果檢測方向已經到當前棋子後還沒有連線，就不可能再連下去了，因為剩下的棋子不足五顆
-            //TODO:因此最多檢測五顆就好，每個方向五顆，四個方向檢測40顆最多(正中心)，最少檢測3個方向，檢測3顆(左上角)
-            bool bugLogSwitch = false;
-            //橫向
-            for (int i = nodeIdXMin; i <= currentPiece.X; i++)//i是應檢棋子編號
-            {
-                for (int j = i + 1; j <= nodeIdXMax && j <= i + 4 ; j++)//j是正在被比較的棋子的編號
-                {  
-                    if (piecesArr[i, currentPiece.Y] != null && piecesArr[j, currentPiece.Y] != null)
-                    {
-                        if (GetPieceType(i, currentPiece.Y) == GetPieceType(j, currentPiece.Y))
-                        {
-                            BugLog("該行的" + i + "號有應檢棋子且它的右邊第" + (j - i) + "個位子有棋", bugLogSwitch);
-                            BugLog("應檢棋子與它的右邊第" + (j - i) + "顆同色", bugLogSwitch);
-                            //TODO:每次顏色一樣的話，連線計數器(connectCounter)就+1
-                            connectCounter++;
-                            disconnectChecker = false;
-                            BugLog("目前累積連線顆數:" + (1 + connectCounter) + "顆", bugLogSwitch);
-                        }
-                        else
-                        {
-                            BugLog("應檢棋子與它的右邊第" + (j - i) + "顆不同色", bugLogSwitch);
-                            break;
-                        }
-                        if (disconnectChecker != true && connectCounter == 4)
-                        {
-                            BugLog("贏了", bugLogSwitch, true);
-                            break;
-                        }
-                    }
-                }
-                //TODO:如果遇到不同顏色的話(包含沒有棋子)，斷線檢查器(disconnectChecker)就設定為true
-                connectCounter = 0;
-                disconnectChecker = true;
-            }
-            //縱向
-            for (int i = nodeIdYMin; i <= currentPiece.Y; i++)//i是應檢棋子編號
-            {
-                for (int j = i + 1; j <= nodeIdYMax && j <= i + 4; j++)//j是正在被比較的棋子的編號
-                {
-                    if (piecesArr[currentPiece.X, i] != null && piecesArr[currentPiece.X, j] != null)
-                    {
-                        if (GetPieceType(currentPiece.X, i) == GetPieceType(currentPiece.X, j))
-                        {
-                            BugLog("該行的" + i + "號有應檢棋子且它的右邊第" + (j - i) + "個位子有棋", bugLogSwitch);
-                            BugLog("應檢棋子與它的右邊第" + (j - i) + "顆同色", bugLogSwitch);
-                            //TODO:每次顏色一樣的話，連線計數器(connectCounter)就+1
-                            connectCounter++;
-                            disconnectChecker = false;
-                            BugLog("目前累積連線顆數:" + (1 + connectCounter) + "顆", bugLogSwitch);
-                        }
-                        else
-                        {
-                            BugLog("應檢棋子與它的右邊第" + (j - i) + "顆不同色", bugLogSwitch);
-                            break;
-                        }
-                        if (disconnectChecker != true && connectCounter == 4)
-                        {
-                            BugLog("贏了", bugLogSwitch, true);
-                            break;
-                        }
-                    }
-                }
-                //TODO:如果遇到不同顏色的話(包含沒有棋子)，斷線檢查器(disconnectChecker)就設定為true
-                connectCounter = 0;
-                disconnectChecker = true;
-            }
-        }
         private int ConnectRangeConverter(int nodeId, ConnectRangeDirection direction)
         {
             //TODO:將點位編號丟進連線範圍轉換()進行可能連線的範圍上下限的取值，例如:x+-4，並且規定範圍在0~8之間
@@ -221,14 +138,111 @@ namespace Gomoku
             return -1;
         }
 
-        private void BugLog(string txt,bool enable)
+        public void ConnectCheck(int cursorX, int cursorY)//輸入當前棋子位於棋盤矩陣的編號
+        {
+            ConnectCheck(cursorX,cursorY, Direction.Horizontal);
+            ConnectCheck(cursorX, cursorY, Direction.Vertical);
+        }
+
+        private void ConnectCheck(int cursorX, int cursorY, Direction direction)
+        {
+            bool bugLogSwitch = false;
+            //方法
+            int connectCounter = 0;
+            bool disconnectChecker = true;
+            //TODO:取得點擊當下的棋盤座標轉換成棋子的點位座標(pieceArr[x,y])
+            Point currentPiece = FindTheCloseNode(cursorX, cursorY);
+
+            int nodeIdMax;
+            int nodeIdMin ;
+            int currentPieceXorY;
+            Point PiecesForComparison;
+            Point PiecesToBeCompared;
+
+            
+            switch(direction)
+            {
+                case Direction.Horizontal:
+                    //TODO:將點位編號丟進連線範圍轉換()進行可能連線的範圍上下限的取值，例如:x+-4，並且規定範圍在0~8之間
+                    nodeIdMax = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Max);
+                    nodeIdMin = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Min);
+                    currentPieceXorY = currentPiece.X;
+                    break;
+
+                case Direction.Vertical:
+                    nodeIdMax = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Max);
+                    nodeIdMin = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Min);
+                    currentPieceXorY = currentPiece.Y;
+                break;
+
+                default:
+                    nodeIdMax = 0;//給予默認值，for迴圈需要給定值
+                    nodeIdMin = 0;//給予默認值，for迴圈需要給定值
+                    currentPieceXorY = 0;//給予默認值，for迴圈需要給定值
+                    break;
+            }
+            //TODO:用迴圈一次判斷每一顆棋子(pieceArr[x,y])和對應的行、列以及對角有沒有連續重複
+            //TODO:檢測範圍是當前棋子的前後4個延伸，但檢測的棋子只要停在當前棋子就好，如果檢測方向已經到當前棋子後還沒有連線，就不可能再連下去了，因為剩下的棋子不足五顆
+            //TODO:因此最多檢測五顆就好，每個方向五顆，四個方向檢測40顆最多(正中心)，最少檢測3個方向，檢測3顆(左上角)
+            
+            for (int i = nodeIdMin; i <= currentPieceXorY; i++)//i是應檢棋子編號
+            {
+                for (int j = i + 1; j <= nodeIdMax && j <= i + 4; j++)//j是正在被比較的棋子的編號
+                {
+                    switch (direction)
+                    {
+                        case Direction.Horizontal:
+                            PiecesForComparison = new Point(i, currentPiece.Y);
+                            PiecesToBeCompared = new Point(j, currentPiece.Y);
+                            break;
+
+                        case Direction.Vertical:
+                            PiecesForComparison = new Point(currentPiece.X, i);
+                            PiecesToBeCompared = new Point(currentPiece.X, j);
+                            break;
+
+                        default:
+                            PiecesForComparison = new Point(currentPiece.X, currentPiece.Y);//給予默認值，for迴圈需要給定值
+                            PiecesToBeCompared = new Point(currentPiece.X, currentPiece.Y);//給予默認值，for迴圈需要給定值
+                            break;
+                    }
+                    if (piecesArr[PiecesForComparison.X, PiecesForComparison.Y] != null && piecesArr[PiecesToBeCompared.X, PiecesToBeCompared.Y] != null)
+                    {
+                        if (GetPieceType(PiecesForComparison.X, PiecesForComparison.Y) == GetPieceType(PiecesToBeCompared.X,PiecesToBeCompared.Y))
+                        {
+                            BugLog("該行的" + i + "號有應檢棋子且它的右邊第" + (j - i) + "個位子有棋", bugLogSwitch);
+                            BugLog("應檢棋子與它的右邊第" + (j - i) + "顆同色", bugLogSwitch);
+                            //TODO:每次顏色一樣的話，連線計數器(connectCounter)就+1
+                            connectCounter++;
+                            disconnectChecker = false;
+                            BugLog("目前累積連線顆數:" + (1 + connectCounter) + "顆", bugLogSwitch);
+                        }
+                        else
+                        {
+                            BugLog("應檢棋子與它的右邊第" + (j - i) + "顆不同色", bugLogSwitch);
+                            break;
+                        }
+                        if (disconnectChecker != true && connectCounter == 4)
+                        {
+                            BugLog("贏了", bugLogSwitch, true);
+                            break;
+                        }
+                    }
+                }
+                //TODO:如果遇到不同顏色的話(包含沒有棋子)，斷線檢查器(disconnectChecker)就設定為true
+                connectCounter = 0;
+                disconnectChecker = true;
+            }
+        }
+
+        private void BugLog(string txt,bool enable)//debug小工具
         {
             if (enable)
             {
                 MessageBox.Show(txt);
             }
         }
-        private void BugLog(string txt, bool enable,bool independent)
+        private void BugLog(string txt, bool enable,bool independent)//debug小工具overload
         {
             enable = independent;
             if (enable)
