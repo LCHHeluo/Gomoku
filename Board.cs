@@ -142,8 +142,8 @@ namespace Gomoku
         {
             ConnectCheck(cursorX,cursorY, Direction.Horizontal);
             ConnectCheck(cursorX, cursorY, Direction.Vertical);
-            ConnectCheck(cursorX, cursorY, Direction.Backslash);
-            ConnectCheck(cursorX, cursorY, Direction.Slash);
+            //ConnectCheck(cursorX, cursorY, Direction.Backslash);
+            //ConnectCheck(cursorX, cursorY, Direction.Slash);
         }
 
         private void ConnectCheck(int cursorX, int cursorY, Direction direction)
@@ -155,40 +155,46 @@ namespace Gomoku
             //TODO:取得點擊當下的棋盤座標轉換成棋子的點位座標(pieceArr[x,y])
             Point currentPiece = FindTheCloseNode(cursorX, cursorY);
 
-            int nodeIdMax;
-            int nodeIdMin ;
-            int currentPieceXorY;
-            int nextY;
-            Point PiecesForComparison;
-            Point PiecesToBeCompared;
+            int nodeIdXBegin;//檢測棋子的起始X座標
+            int nodeIdYBegin;//檢測棋子的起始Y座標
+            int nodeIdXEnd;//被測棋子的終點X座標
+            int nodeIdYEnd;//被測棋子的終點Y座標
+            int nextX;//檢測棋子的下一個X座標加減
+            int nextY;//檢測棋子的下一個Y座標加減
+            //Point PiecesForComparison;
+            //Point PiecesToBeCompared;
 
             
             switch(direction)
             {
                 case Direction.Horizontal:
                     //TODO:將點位編號丟進連線範圍轉換()進行可能連線的範圍上下限的取值，例如:x+-4，並且規定範圍在0~8之間
-                    nodeIdMax = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Max);
-                    nodeIdMin = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Min);
-                    currentPieceXorY = currentPiece.X;
-                    nextY = 1;
+                    nodeIdXBegin = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Min);
+                    nodeIdYBegin = currentPiece.Y;
+                    nodeIdXEnd = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Max);
+                    nodeIdYEnd = currentPiece.Y;
+                    nextX = 1;
+                    nextY = 0;
                     break;
 
                 case Direction.Vertical:
-                    nodeIdMax = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Max);
-                    nodeIdMin = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Min);
-                    currentPieceXorY = currentPiece.Y;
+                    nodeIdXBegin = currentPiece.X;
+                    nodeIdYBegin = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Min);
+                    nodeIdXEnd = currentPiece.X;
+                    nodeIdYEnd = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Max);
+                    nextX = 0;
                     nextY = 1;
                     break;
 
-                case Direction.Backslash:
+                /*case Direction.Backslash:
                     if (ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Min) <= ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Min))
                     {
-                        nodeIdMin = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Min);
+                        nodeIdXBegin = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Min);
                         currentPieceXorY = currentPiece.X;
                     }
                     else
                     {
-                        nodeIdMin = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Min);
+                        nodeIdXBegin = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Min);
                         currentPieceXorY = currentPiece.Y;
                     }
                     if (ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Max) >= ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Max))
@@ -205,12 +211,12 @@ namespace Gomoku
                 case Direction.Slash:
                     if (ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Min) <= ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Min))
                     {
-                        nodeIdMin = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Min);
+                        nodeIdXBegin = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Min);
                         currentPieceXorY = currentPiece.X;
                     }
                     else
                     {
-                        nodeIdMin = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Min);
+                        nodeIdXBegin = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Min);
                         currentPieceXorY = currentPiece.Y;
                     }
                     if (ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Max) >= ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Max))
@@ -223,32 +229,35 @@ namespace Gomoku
                     }
                     nextY = -1;
                     break;
-
-                default:
-                    nodeIdMax = 0;//給予默認值，for迴圈需要給定值
-                    nodeIdMin = 0;//給予默認值，for迴圈需要給定值
-                    currentPieceXorY = 0;//給予默認值，for迴圈需要給定值
-                    nextY = 1;//給予默認值，for迴圈需要給定值
+                */
+                default:  
+                    nodeIdXBegin = 0;//給予默認值，for迴圈需要給定值
+                    nodeIdYBegin = 0;
+                    nodeIdXEnd = 8;//給予默認值，for迴圈需要給定值
+                    nodeIdYEnd = 8;//給予默認值，for迴圈需要給定值
+                    nextX = 0;//給予默認值，for迴圈需要給定值
+                    nextY = 0;//給予默認值，for迴圈需要給定值
                     break;
             }
             //TODO:用迴圈一次判斷每一顆棋子(pieceArr[x,y])和對應的行、列以及對角有沒有連續重複
             //TODO:檢測範圍是當前棋子的前後4個延伸，但檢測的棋子只要停在當前棋子就好，如果檢測方向已經到當前棋子後還沒有連線，就不可能再連下去了，因為剩下的棋子不足五顆
             //TODO:因此最多檢測五顆就好，每個方向五顆，四個方向檢測40顆最多(正中心)，最少檢測3個方向，檢測3顆(左上角)
-            
-            for (int i = nodeIdMin; i <= currentPieceXorY; i++)//i是應檢棋子編號
+
+            for (int iX = nodeIdXBegin, iY = nodeIdYBegin; iX <= currentPiece.X && iY <= currentPiece.Y; iX += nextX, iY += nextY)//i是應檢棋子的編號
             {
-                for (int j = i + 1; j <= nodeIdMax && j <= i + 4; j += nextY)//j是正在被比較的棋子的編號
+                for (int jX = iX + nextX, jY = iY + nextY; jX <= nodeIdXEnd && jY <= nodeIdYEnd && jX <= iX + 4; jX += nextX, jY += nextY)//j是被檢的棋子的編號
                 {
+                    /*
                     switch (direction)
                     {
                         case Direction.Horizontal:
-                            PiecesForComparison = new Point(i, currentPiece.Y);
-                            PiecesToBeCompared = new Point(j, currentPiece.Y);
+                            PiecesForComparison = new Point(iX, iY);
+                            PiecesToBeCompared = new Point(jX, jY);
                             break;
 
                         case Direction.Vertical:
-                            PiecesForComparison = new Point(currentPiece.X, i);
-                            PiecesToBeCompared = new Point(currentPiece.X, j);
+                            PiecesForComparison = new Point(iX, iY);
+                            PiecesToBeCompared = new Point(jX, jY);
                             break;
 
                         case Direction.Backslash:
@@ -265,21 +274,21 @@ namespace Gomoku
                             PiecesForComparison = new Point(currentPiece.X, currentPiece.Y);//給予默認值，for迴圈需要給定值
                             PiecesToBeCompared = new Point(currentPiece.X, currentPiece.Y);//給予默認值，for迴圈需要給定值
                             break;
-                    }
-                    if (piecesArr[PiecesForComparison.X, PiecesForComparison.Y] != null && piecesArr[PiecesToBeCompared.X, PiecesToBeCompared.Y] != null)
+                    }*/
+                    if (piecesArr[iX, iY] != null && piecesArr[jX, jY] != null)
                     {
-                        if (GetPieceType(PiecesForComparison.X, PiecesForComparison.Y) == GetPieceType(PiecesToBeCompared.X,PiecesToBeCompared.Y))
+                        if (GetPieceType(iX, iY) == GetPieceType(jX, jY))
                         {
-                            BugLog("該行的" + i + "號有應檢棋子且它的右邊第" + (j - i) + "個位子有棋", bugLogSwitch);
-                            BugLog("應檢棋子與它的右邊第" + (j - i) + "顆同色", bugLogSwitch);
+                            //BugLog("該行的" + i + "號有應檢棋子且它的右邊第" + (j - i) + "個位子有棋", bugLogSwitch);
+                            //BugLog("應檢棋子與它的右邊第" + (j - i) + "顆同色", bugLogSwitch);
                             //TODO:每次顏色一樣的話，連線計數器(connectCounter)就+1
                             connectCounter++;
                             disconnectChecker = false;
-                            BugLog("目前累積連線顆數:" + (1 + connectCounter) + "顆", bugLogSwitch);
+                            //BugLog("目前累積連線顆數:" + (1 + connectCounter) + "顆", bugLogSwitch);
                         }
                         else
                         {
-                            BugLog("應檢棋子與它的右邊第" + (j - i) + "顆不同色", bugLogSwitch);
+                            //BugLog("應檢棋子與它的右邊第" + (j - i) + "顆不同色", bugLogSwitch);
                             break;
                         }
                         if (disconnectChecker != true && connectCounter == 4)
