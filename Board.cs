@@ -116,18 +116,7 @@ namespace Gomoku
 
         public void ConnectCheck(int cursorX, int cursorY)//輸入當前棋子位於棋盤矩陣的編號
         {
-            //方法1
-            //TODO:取得點擊當下的棋盤座標轉換成棋子的點位座標
-            //TODO:用迴圈一次判斷每一顆棋子(pieceArr[x,y])和對應的行、列以及對角有沒有連續重複
-
-            //TODO:每次顏色一樣的話，連線計數器(connectCounter)就+1
-            //TODO:如果遇到不同顏色的話(包含沒有棋子)，斷線檢查器(disconnectChecker)就設定為true
-            /*TODO:每次一顆棋子和其他80個棋子判定完後，如果connectCounter>=5並且disconnectChecker為false則
-            為勝利檢查器(winningChecker)就設定為true*/
-            //TODO:
-
-
-            //方法2
+            //方法
             int connectCounter = 0;
             bool disconnectChecker = true;
 
@@ -141,8 +130,9 @@ namespace Gomoku
 
             //TODO:用迴圈一次判斷每一顆棋子(pieceArr[x,y])和對應的行、列以及對角有沒有連續重複
             //TODO:檢測範圍是當前棋子的前後4個延伸，但檢測的棋子只要停在當前棋子就好，如果檢測方向已經到當前棋子後還沒有連線，就不可能再連下去了，因為剩下的棋子不足五顆
-            //TODO:因此最多檢測五顆就好，每個方向五顆，四個方向檢測20顆最多(正中心)，最少檢測3個方向，檢測3顆(左上角)
-            bool bugLogSwitch = true;
+            //TODO:因此最多檢測五顆就好，每個方向五顆，四個方向檢測40顆最多(正中心)，最少檢測3個方向，檢測3顆(左上角)
+            bool bugLogSwitch = false;
+            //橫向
             for (int i = nodeIdXMin; i <= currentPiece.X; i++)//i是應檢棋子編號
             {
                 for (int j = i + 1; j <= nodeIdXMax && j <= i + 4 ; j++)//j是正在被比較的棋子的編號
@@ -153,6 +143,7 @@ namespace Gomoku
                         {
                             BugLog("該行的" + i + "號有應檢棋子且它的右邊第" + (j - i) + "個位子有棋", bugLogSwitch);
                             BugLog("應檢棋子與它的右邊第" + (j - i) + "顆同色", bugLogSwitch);
+                            //TODO:每次顏色一樣的話，連線計數器(connectCounter)就+1
                             connectCounter++;
                             disconnectChecker = false;
                             BugLog("目前累積連線顆數:" + (1 + connectCounter) + "顆", bugLogSwitch);
@@ -169,13 +160,42 @@ namespace Gomoku
                         }
                     }
                 }
+                //TODO:如果遇到不同顏色的話(包含沒有棋子)，斷線檢查器(disconnectChecker)就設定為true
                 connectCounter = 0;
                 disconnectChecker = true;
             }
-
-            //TODO:每次顏色一樣的話，連線計數器(connectCounter)就+1
-            //TODO:如果遇到不同顏色的話(包含沒有棋子)，斷線檢查器(disconnectChecker)就設定為true
-            //TODO:連線範圍內的每顆棋子往下做連線判定如果該顆棋子沒有讓勝利檢查器設定為true就繼續讓下一顆棋子往下做檢測但不用往回做檢測
+            //縱向
+            for (int i = nodeIdYMin; i <= currentPiece.Y; i++)//i是應檢棋子編號
+            {
+                for (int j = i + 1; j <= nodeIdYMax && j <= i + 4; j++)//j是正在被比較的棋子的編號
+                {
+                    if (piecesArr[currentPiece.X, i] != null && piecesArr[currentPiece.X, j] != null)
+                    {
+                        if (GetPieceType(currentPiece.X, i) == GetPieceType(currentPiece.X, j))
+                        {
+                            BugLog("該行的" + i + "號有應檢棋子且它的右邊第" + (j - i) + "個位子有棋", bugLogSwitch);
+                            BugLog("應檢棋子與它的右邊第" + (j - i) + "顆同色", bugLogSwitch);
+                            //TODO:每次顏色一樣的話，連線計數器(connectCounter)就+1
+                            connectCounter++;
+                            disconnectChecker = false;
+                            BugLog("目前累積連線顆數:" + (1 + connectCounter) + "顆", bugLogSwitch);
+                        }
+                        else
+                        {
+                            BugLog("應檢棋子與它的右邊第" + (j - i) + "顆不同色", bugLogSwitch);
+                            break;
+                        }
+                        if (disconnectChecker != true && connectCounter == 4)
+                        {
+                            BugLog("贏了", bugLogSwitch, true);
+                            break;
+                        }
+                    }
+                }
+                //TODO:如果遇到不同顏色的話(包含沒有棋子)，斷線檢查器(disconnectChecker)就設定為true
+                connectCounter = 0;
+                disconnectChecker = true;
+            }
         }
         private int ConnectRangeConverter(int nodeId, ConnectRangeDirection direction)
         {
