@@ -142,6 +142,8 @@ namespace Gomoku
         {
             ConnectCheck(cursorX,cursorY, Direction.Horizontal);
             ConnectCheck(cursorX, cursorY, Direction.Vertical);
+            ConnectCheck(cursorX, cursorY, Direction.Backslash);
+            ConnectCheck(cursorX, cursorY, Direction.Slash);
         }
 
         private void ConnectCheck(int cursorX, int cursorY, Direction direction)
@@ -156,6 +158,7 @@ namespace Gomoku
             int nodeIdMax;
             int nodeIdMin ;
             int currentPieceXorY;
+            int nextY;
             Point PiecesForComparison;
             Point PiecesToBeCompared;
 
@@ -167,18 +170,65 @@ namespace Gomoku
                     nodeIdMax = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Max);
                     nodeIdMin = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Min);
                     currentPieceXorY = currentPiece.X;
+                    nextY = 1;
                     break;
 
                 case Direction.Vertical:
                     nodeIdMax = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Max);
                     nodeIdMin = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Min);
                     currentPieceXorY = currentPiece.Y;
-                break;
+                    nextY = 1;
+                    break;
+
+                case Direction.Backslash:
+                    if (ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Min) <= ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Min))
+                    {
+                        nodeIdMin = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Min);
+                        currentPieceXorY = currentPiece.X;
+                    }
+                    else
+                    {
+                        nodeIdMin = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Min);
+                        currentPieceXorY = currentPiece.Y;
+                    }
+                    if (ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Max) >= ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Max))
+                    {
+                        nodeIdMax = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Max);
+                    }
+                    else
+                    {
+                        nodeIdMax = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Max);
+                    }
+                    nextY = 1;
+                    break;
+
+                case Direction.Slash:
+                    if (ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Min) <= ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Min))
+                    {
+                        nodeIdMin = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Min);
+                        currentPieceXorY = currentPiece.X;
+                    }
+                    else
+                    {
+                        nodeIdMin = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Min);
+                        currentPieceXorY = currentPiece.Y;
+                    }
+                    if (ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Max) >= ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Max))
+                    {
+                        nodeIdMax = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Max);
+                    }
+                    else
+                    {
+                        nodeIdMax = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Max);
+                    }
+                    nextY = -1;
+                    break;
 
                 default:
                     nodeIdMax = 0;//給予默認值，for迴圈需要給定值
                     nodeIdMin = 0;//給予默認值，for迴圈需要給定值
                     currentPieceXorY = 0;//給予默認值，for迴圈需要給定值
+                    nextY = 1;//給予默認值，for迴圈需要給定值
                     break;
             }
             //TODO:用迴圈一次判斷每一顆棋子(pieceArr[x,y])和對應的行、列以及對角有沒有連續重複
@@ -187,7 +237,7 @@ namespace Gomoku
             
             for (int i = nodeIdMin; i <= currentPieceXorY; i++)//i是應檢棋子編號
             {
-                for (int j = i + 1; j <= nodeIdMax && j <= i + 4; j++)//j是正在被比較的棋子的編號
+                for (int j = i + 1; j <= nodeIdMax && j <= i + 4; j += nextY)//j是正在被比較的棋子的編號
                 {
                     switch (direction)
                     {
@@ -199,6 +249,16 @@ namespace Gomoku
                         case Direction.Vertical:
                             PiecesForComparison = new Point(currentPiece.X, i);
                             PiecesToBeCompared = new Point(currentPiece.X, j);
+                            break;
+
+                        case Direction.Backslash:
+                            PiecesForComparison = new Point(i, i);
+                            PiecesToBeCompared = new Point(j, j);
+                            break;
+
+                        case Direction.Slash:
+                            PiecesForComparison = new Point(i, i);
+                            PiecesToBeCompared = new Point(j, j);
                             break;
 
                         default:
