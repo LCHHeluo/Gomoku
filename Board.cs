@@ -156,18 +156,125 @@ namespace Gomoku
                     point.X = nodeIdX;
                     point.Y = nodeIdY;
                     return point;
-/*
-                case ConnectRangeDirection.BacksalshMin:
+
+                case ConnectRangeDirection.BackslashMin:
                     if (nodeIdX > nodeIdY)
                     {
                         if (nodeIdY - 4 < 0)
                         {
-                            nodeIdY = 0;
                             nodeIdX -= nodeIdY;
+                            nodeIdY = 0;
                         }
-                        return 
+                        else
+                        {
+                            nodeIdY -= 4;
+                            nodeIdX -= 4;
+                        }
                     }
-*/
+                    else if (nodeIdX < nodeIdY)
+                    {
+                        if (nodeIdX - 4 < 0)
+                        {
+                            nodeIdY -= nodeIdX;
+                            nodeIdX = 0;
+                        }
+                        else
+                        {
+                            nodeIdX -= 4;
+                            nodeIdY -= 4;
+                        }
+                    }
+                    else if (nodeIdX == nodeIdY)
+                    {
+                        if (nodeIdX - 4 < 0)
+                        {
+                            nodeIdY = 0;
+                            nodeIdX = 0;
+                        }
+                        else
+                        {
+                            nodeIdX -= 4;
+                            nodeIdY -= 4;
+                        }
+                    }
+                    point.X = nodeIdX;
+                    point.Y = nodeIdY;
+                    return point;
+
+                case ConnectRangeDirection.BackslashMax:
+                    if (nodeIdX > nodeIdY)
+                    {
+                        if (nodeIdX + 4 > 8)
+                        {
+                            nodeIdY += (8 - nodeIdX);
+                            nodeIdX = 8;
+                        }
+                        else
+                        {
+                            nodeIdY += 4;
+                            nodeIdX += 4;
+                        }
+                    }
+                    else if (nodeIdX < nodeIdY)
+                    {
+                        if (nodeIdY + 4 > 8)
+                        {
+                            nodeIdX += (8 - nodeIdY);
+                            nodeIdY = 8;
+                        }
+                        else
+                        {
+                            nodeIdX += 4;
+                            nodeIdY += 4;
+                        }
+                    }
+                    else if (nodeIdX == nodeIdY)
+                    {
+                        if (nodeIdX + 4 > 8)
+                        {
+                            nodeIdX = 8;
+                            nodeIdY = 8;
+                        }
+                        else
+                        {
+                            nodeIdX += 4;
+                            nodeIdY += 4;
+                        }
+                    }
+                    point.X = nodeIdX;
+                    point.Y = nodeIdY;
+                    return point;
+
+                case ConnectRangeDirection.SlashMin:
+                    if (nodeIdX + nodeIdY <= 8)
+                    {
+                        nodeIdY += nodeIdX;
+                        nodeIdX = 0;
+                    }
+                    else if (nodeIdX + nodeIdY > 8)
+                    {
+                        nodeIdX += (nodeIdY - 8);
+                        nodeIdY = 8;
+                    }
+                    point.X = nodeIdX;
+                    point.Y = nodeIdY;
+                    return point;
+
+                case ConnectRangeDirection.SlashMax:
+                    if (nodeIdX + nodeIdY <= 8)
+                    {
+                        nodeIdX += nodeIdY;
+                        nodeIdY = 0;
+                    }
+                    else if (nodeIdX + nodeIdY > 8)
+                    {
+                        nodeIdY += (nodeIdX - 8);
+                        nodeIdX = 8;
+                    }
+                    point.X = nodeIdX;
+                    point.Y = nodeIdY;
+                    return point;
+
                 default:
                     return NO_MATCH_NODE;
             }
@@ -177,8 +284,8 @@ namespace Gomoku
         {
             ConnectCheck(cursorX,cursorY, Direction.Horizontal);
             ConnectCheck(cursorX, cursorY, Direction.Vertical);
-            //ConnectCheck(cursorX, cursorY, Direction.Backslash);
-            //ConnectCheck(cursorX, cursorY, Direction.Slash);
+            ConnectCheck(cursorX, cursorY, Direction.Backslash);
+            ConnectCheck(cursorX, cursorY, Direction.Slash);
         }
 
         private void ConnectCheck(int cursorX, int cursorY, Direction direction)
@@ -196,20 +303,24 @@ namespace Gomoku
             int nodeIdYEnd;//被測棋子的終點Y座標
             int nextX;//檢測棋子的下一個X座標加減
             int nextY;//檢測棋子的下一個Y座標加減
+            int nextXZeroPlus;//用於幫助下一個X座標是+0時需要多+1以防迴圈進不去，只需用在垂直水平時
+            int nextYZeroPlus;//用於幫助下一個Y座標是+0時需要多+1以防迴圈進不去，只需用在垂直水平時
             //Point PiecesForComparison;
             //Point PiecesToBeCompared;
 
-            
-            switch(direction)
+
+            switch (direction)
             {
                 case Direction.Horizontal:
                     //TODO:將點位編號丟進連線範圍轉換()進行可能連線的範圍上下限的取值，例如:x+-4，並且規定範圍在0~8之間
                     nodeIdXBegin = ConnectRangeConverter(currentPiece, ConnectRangeDirection.HorizontalMin).X;
                     nodeIdYBegin = ConnectRangeConverter(currentPiece, ConnectRangeDirection.HorizontalMin).Y;
-                    nodeIdXEnd = ConnectRangeConverter(currentPiece, ConnectRangeDirection.HorizontalMin).X;
-                    nodeIdYEnd = ConnectRangeConverter(currentPiece, ConnectRangeDirection.HorizontalMin).Y;
+                    nodeIdXEnd = ConnectRangeConverter(currentPiece, ConnectRangeDirection.HorizontalMax).X;
+                    nodeIdYEnd = ConnectRangeConverter(currentPiece, ConnectRangeDirection.HorizontalMax).Y;
                     nextX = 1;
                     nextY = 0;
+                    nextXZeroPlus = 0;
+                    nextYZeroPlus = 1;
                     break;
 
                 case Direction.Vertical:
@@ -219,52 +330,32 @@ namespace Gomoku
                     nodeIdYEnd = ConnectRangeConverter(currentPiece, ConnectRangeDirection.VerticalMax).Y;
                     nextX = 0;
                     nextY = 1;
+                    nextXZeroPlus = 1;
+                    nextYZeroPlus = 0;
                     break;
 
-                /*case Direction.Backslash:
-                    if (ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Min) <= ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Min))
-                    {
-                        nodeIdXBegin = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Min);
-                        currentPieceXorY = currentPiece.X;
-                    }
-                    else
-                    {
-                        nodeIdXBegin = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Min);
-                        currentPieceXorY = currentPiece.Y;
-                    }
-                    if (ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Max) >= ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Max))
-                    {
-                        nodeIdMax = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Max);
-                    }
-                    else
-                    {
-                        nodeIdMax = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Max);
-                    }
+                case Direction.Backslash:
+                    nodeIdXBegin = ConnectRangeConverter(currentPiece, ConnectRangeDirection.BackslashMin).X;
+                    nodeIdYBegin = ConnectRangeConverter(currentPiece, ConnectRangeDirection.BackslashMin).Y;
+                    nodeIdXEnd = ConnectRangeConverter(currentPiece, ConnectRangeDirection.BackslashMax).X;
+                    nodeIdYEnd = ConnectRangeConverter(currentPiece, ConnectRangeDirection.BackslashMax).Y;
+                    nextX = 1;
                     nextY = 1;
+                    nextXZeroPlus = 0;
+                    nextYZeroPlus = 0;
                     break;
 
                 case Direction.Slash:
-                    if (ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Min) <= ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Min))
-                    {
-                        nodeIdXBegin = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Min);
-                        currentPieceXorY = currentPiece.X;
-                    }
-                    else
-                    {
-                        nodeIdXBegin = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Min);
-                        currentPieceXorY = currentPiece.Y;
-                    }
-                    if (ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Max) >= ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Max))
-                    {
-                        nodeIdMax = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Max);
-                    }
-                    else
-                    {
-                        nodeIdMax = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Max);
-                    }
+                    nodeIdXBegin = ConnectRangeConverter(currentPiece, ConnectRangeDirection.SlashMin).X;
+                    nodeIdYBegin = ConnectRangeConverter(currentPiece, ConnectRangeDirection.SlashMin).Y;
+                    nodeIdXEnd = ConnectRangeConverter(currentPiece, ConnectRangeDirection.SlashMax).X;
+                    nodeIdYEnd = ConnectRangeConverter(currentPiece, ConnectRangeDirection.SlashMax).Y;
+                    nextX = 1;
                     nextY = -1;
+                    nextXZeroPlus = 0;
+                    nextYZeroPlus = 0;
                     break;
-                */
+
                 default:  
                     nodeIdXBegin = 0;//給予默認值，for迴圈需要給定值
                     nodeIdYBegin = 0;
@@ -272,15 +363,17 @@ namespace Gomoku
                     nodeIdYEnd = 8;//給予默認值，for迴圈需要給定值
                     nextX = 0;//給予默認值，for迴圈需要給定值
                     nextY = 0;//給予默認值，for迴圈需要給定值
+                    nextXZeroPlus = 0;
+                    nextYZeroPlus = 0;
                     break;
             }
             //TODO:用迴圈一次判斷每一顆棋子(pieceArr[x,y])和對應的行、列以及對角有沒有連續重複
             //TODO:檢測範圍是當前棋子的前後4個延伸，但檢測的棋子只要停在當前棋子就好，如果檢測方向已經到當前棋子後還沒有連線，就不可能再連下去了，因為剩下的棋子不足五顆
             //TODO:因此最多檢測五顆就好，每個方向五顆，四個方向檢測40顆最多(正中心)，最少檢測3個方向，檢測3顆(左上角)
 
-            for (int iX = nodeIdXBegin, iY = nodeIdYBegin; iX <= currentPiece.X && iY <= currentPiece.Y; iX += nextX, iY += nextY)//i是應檢棋子的編號
+            for (int iX = nodeIdXBegin, iY = nodeIdYBegin; iX != currentPiece.X + nextX + nextXZeroPlus && iY != currentPiece.Y + nextY + nextYZeroPlus; iX += nextX, iY += nextY)//i是應檢棋子的編號
             {
-                for (int jX = iX + nextX, jY = iY + nextY; jX <= nodeIdXEnd && jY <= nodeIdYEnd && jX <= iX + 4; jX += nextX, jY += nextY)//j是被檢的棋子的編號
+                for (int jX = iX + nextX, jY = iY + nextY, jCount = 0; jX != nodeIdXEnd + nextX + nextXZeroPlus && jY != nodeIdYEnd + nextY + nextYZeroPlus && jCount < 4; jX += nextX, jY += nextY, jCount++)//j是被檢的棋子的編號
                 {
                     /*
                     switch (direction)
