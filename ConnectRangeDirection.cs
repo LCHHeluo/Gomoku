@@ -11,6 +11,6 @@ namespace Gomoku
         HorizontalMax, HorizontalMin,
         VerticalMax, VerticalMin,
         SlashMax, SlashMin,
-        BacksalshMax, BacksalshMin
+        BackslashMax, BackslashMin
     }
 }
