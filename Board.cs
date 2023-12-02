@@ -114,28 +114,63 @@ namespace Gomoku
             }
         }
 
-        private int ConnectRangeConverter(int nodeId, ConnectRangeDirection direction)
+        private Point ConnectRangeConverter(Point currentPoint, ConnectRangeDirection directionExtremum)
         {
+            int nodeIdX = currentPoint.X, nodeIdY = currentPoint.Y;
+            Point point = new Point(nodeIdX, nodeIdY);
             //TODO:將點位編號丟進連線範圍轉換()進行可能連線的範圍上下限的取值，例如:x+-4，並且規定範圍在0~8之間
-            switch (direction)
+            switch (directionExtremum)
             {
-                case ConnectRangeDirection.Max:
-                    int nodeIdMax;
-                    if (nodeId + 4 > 8)
-                        nodeIdMax = 8;
+                case ConnectRangeDirection.HorizontalMax:
+                    if (nodeIdX + 4 > 8)
+                        nodeIdX = 8;
                     else
-                        nodeIdMax = nodeId + 4;
-                    return nodeIdMax;
+                        nodeIdX += 4;
+                    point.X = nodeIdX;
+                    point.Y = nodeIdY;
+                    return point;
 
-                case ConnectRangeDirection.Min:
-                    int nodeIdMin;
-                    if (nodeId - 4 < 0)
-                        nodeIdMin = 0;
+                case ConnectRangeDirection.HorizontalMin:
+                    if (nodeIdX - 4 < 0)
+                        nodeIdX = 0;
                     else
-                        nodeIdMin = nodeId - 4;
-                    return nodeIdMin;
+                        nodeIdX -= 4;
+                    point.X = nodeIdX;
+                    point.Y = nodeIdY;
+                    return point;
+
+                case ConnectRangeDirection.VerticalMax:
+                    if (nodeIdY + 4 > 8)
+                        nodeIdY = 8;
+                    else
+                        nodeIdY += 4;
+                    point.X = nodeIdX;
+                    point.Y = nodeIdY;
+                    return point;
+
+                case ConnectRangeDirection.VerticalMin:
+                    if (nodeIdY - 4 < 0)
+                        nodeIdY = 0;
+                    else
+                        nodeIdY -= 4;
+                    point.X = nodeIdX;
+                    point.Y = nodeIdY;
+                    return point;
+/*
+                case ConnectRangeDirection.BacksalshMin:
+                    if (nodeIdX > nodeIdY)
+                    {
+                        if (nodeIdY - 4 < 0)
+                        {
+                            nodeIdY = 0;
+                            nodeIdX -= nodeIdY;
+                        }
+                        return 
+                    }
+*/
+                default:
+                    return NO_MATCH_NODE;
             }
-            return -1;
         }
 
         public void ConnectCheck(int cursorX, int cursorY)//輸入當前棋子位於棋盤矩陣的編號
@@ -169,19 +204,19 @@ namespace Gomoku
             {
                 case Direction.Horizontal:
                     //TODO:將點位編號丟進連線範圍轉換()進行可能連線的範圍上下限的取值，例如:x+-4，並且規定範圍在0~8之間
-                    nodeIdXBegin = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Min);
-                    nodeIdYBegin = currentPiece.Y;
-                    nodeIdXEnd = ConnectRangeConverter(currentPiece.X, ConnectRangeDirection.Max);
-                    nodeIdYEnd = currentPiece.Y;
+                    nodeIdXBegin = ConnectRangeConverter(currentPiece, ConnectRangeDirection.HorizontalMin).X;
+                    nodeIdYBegin = ConnectRangeConverter(currentPiece, ConnectRangeDirection.HorizontalMin).Y;
+                    nodeIdXEnd = ConnectRangeConverter(currentPiece, ConnectRangeDirection.HorizontalMin).X;
+                    nodeIdYEnd = ConnectRangeConverter(currentPiece, ConnectRangeDirection.HorizontalMin).Y;
                     nextX = 1;
                     nextY = 0;
                     break;
 
                 case Direction.Vertical:
-                    nodeIdXBegin = currentPiece.X;
-                    nodeIdYBegin = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Min);
-                    nodeIdXEnd = currentPiece.X;
-                    nodeIdYEnd = ConnectRangeConverter(currentPiece.Y, ConnectRangeDirection.Max);
+                    nodeIdXBegin = ConnectRangeConverter(currentPiece, ConnectRangeDirection.VerticalMin).X;
+                    nodeIdYBegin = ConnectRangeConverter(currentPiece, ConnectRangeDirection.VerticalMin).Y;
+                    nodeIdXEnd = ConnectRangeConverter(currentPiece, ConnectRangeDirection.VerticalMax).X;
+                    nodeIdYEnd = ConnectRangeConverter(currentPiece, ConnectRangeDirection.VerticalMax).Y;
                     nextX = 0;
                     nextY = 1;
                     break;

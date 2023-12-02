@@ -8,6 +8,9 @@ namespace Gomoku
 {
     enum ConnectRangeDirection//用來決定取最大值還是最小值
     {
-        Max, Min
+        HorizontalMax, HorizontalMin,
+        VerticalMax, VerticalMin,
+        SlashMax, SlashMin,
+        BacksalshMax, BacksalshMin
     }
 }
