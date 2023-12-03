@@ -24,7 +24,19 @@ namespace Gomoku
             Piece piece = gm.PlaceAPiece(e.X, e.Y);
             if (piece != null)
                 this.Controls.Add(piece);
-            gm.CheckWinner(e.X, e.Y);
+
+            switch (gm.CheckWinner(e.X, e.Y))
+            {
+                case PieceType.BLACK:
+                    MessageBox.Show("黑棋玩家贏了");
+                    break;
+
+                case PieceType.WHITE:
+                    MessageBox.Show("白棋玩家贏了");
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)

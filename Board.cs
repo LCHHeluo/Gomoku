@@ -280,17 +280,23 @@ namespace Gomoku
             }
         }
 
-        public void ConnectCheck(int cursorX, int cursorY)//輸入當前棋子位於棋盤矩陣的編號
+        public PieceType ConnectCheck(int cursorX, int cursorY)//輸入當前棋子位於棋盤矩陣的編號
         {
-            ConnectCheck(cursorX,cursorY, Direction.Horizontal);
-            ConnectCheck(cursorX, cursorY, Direction.Vertical);
-            ConnectCheck(cursorX, cursorY, Direction.Backslash);
-            ConnectCheck(cursorX, cursorY, Direction.Slash);
+            if(ConnectCheck(cursorX, cursorY, Direction.Horizontal)!=PieceType.NONE)
+                return ConnectCheck(cursorX, cursorY, Direction.Horizontal);
+            else if (ConnectCheck(cursorX, cursorY, Direction.Vertical) != PieceType.NONE)
+                return ConnectCheck(cursorX, cursorY, Direction.Vertical);
+            else if (ConnectCheck(cursorX, cursorY, Direction.Backslash) != PieceType.NONE)
+                return ConnectCheck(cursorX, cursorY, Direction.Backslash);
+            else if (ConnectCheck(cursorX, cursorY, Direction.Slash) != PieceType.NONE)
+                return ConnectCheck(cursorX, cursorY, Direction.Slash);
+            else
+                return PieceType.NONE;
         }
 
-        private void ConnectCheck(int cursorX, int cursorY, Direction direction)
+        private PieceType ConnectCheck(int cursorX, int cursorY, Direction direction)
         {
-            bool bugLogSwitch = false;
+            //bool bugLogSwitch = false;
             //方法
             int connectCounter = 0;
             bool disconnectChecker = true;
@@ -305,9 +311,6 @@ namespace Gomoku
             int nextY;//檢測棋子的下一個Y座標加減
             int nextXZeroPlus;//用於幫助下一個X座標是+0時需要多+1以防迴圈進不去，只需用在垂直水平時
             int nextYZeroPlus;//用於幫助下一個Y座標是+0時需要多+1以防迴圈進不去，只需用在垂直水平時
-            //Point PiecesForComparison;
-            //Point PiecesToBeCompared;
-
 
             switch (direction)
             {
@@ -421,8 +424,8 @@ namespace Gomoku
                         }
                         if (disconnectChecker != true && connectCounter == 4)
                         {
-                            BugLog("贏了", bugLogSwitch, true);
-                            break;
+                            //BugLog("贏了", bugLogSwitch);
+                            return GetPieceType(iX, iY);
                         }
                     }
                 }
@@ -430,8 +433,9 @@ namespace Gomoku
                 connectCounter = 0;
                 disconnectChecker = true;
             }
+        return PieceType.NONE;
         }
-
+        /*除錯用
         private void BugLog(string txt,bool enable)//debug小工具
         {
             if (enable)
@@ -447,5 +451,6 @@ namespace Gomoku
                 MessageBox.Show(txt);
             }
         }
+        */
     }
 }

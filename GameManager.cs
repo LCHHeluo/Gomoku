@@ -34,9 +34,9 @@ namespace Gomoku
         }
 
         
-        public void CheckWinner(int x,int y)
+        public PieceType CheckWinner(int x,int y)
         {
-            board.ConnectCheck(x,y);
+            return board.ConnectCheck(x,y);
         }
     
     
