@@ -28,7 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.CurrentPlayerLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // CurrentPlayerLabel
+            // 
+            this.CurrentPlayerLabel.AutoSize = true;
+            this.CurrentPlayerLabel.BackColor = System.Drawing.Color.Transparent;
+            this.CurrentPlayerLabel.Font = new System.Drawing.Font("等距更紗黑體 TC", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.CurrentPlayerLabel.Location = new System.Drawing.Point(295, 30);
+            this.CurrentPlayerLabel.Name = "CurrentPlayerLabel";
+            this.CurrentPlayerLabel.Size = new System.Drawing.Size(152, 26);
+            this.CurrentPlayerLabel.TabIndex = 0;
+            this.CurrentPlayerLabel.Text = "當前玩家：黑棋";
+            this.CurrentPlayerLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // Form1
             // 
@@ -37,16 +50,20 @@
             this.BackgroundImage = global::Gomoku.Properties.Resources.board;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(734, 711);
+            this.Controls.Add(this.CurrentPlayerLabel);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Name = "Form1";
             this.Text = "五子棋";
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private System.Windows.Forms.Label CurrentPlayerLabel;
     }
 }
 

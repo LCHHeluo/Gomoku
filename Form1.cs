@@ -37,6 +37,16 @@ namespace Gomoku
                 default:
                     break;
             }
+            switch (gm.currentPlayer)
+            {
+                case PieceType.BLACK:
+                    CurrentPlayerLabel.Text = "當前玩家：黑棋";
+                    break;
+
+                case PieceType.WHITE:
+                    CurrentPlayerLabel.Text = "當前玩家：白棋";
+                    break;
+            }
         }
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)

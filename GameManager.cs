@@ -11,7 +11,7 @@ namespace Gomoku
     {
         private Board board = new Board();
 
-        private PieceType currentPlayer = PieceType.BLACK;
+        public PieceType currentPlayer = PieceType.BLACK;
 
         public bool CanBePlace(int cursorX, int cursorY)
         {
