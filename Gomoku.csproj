@@ -52,6 +52,12 @@
     <Compile Include="Board.cs" />
     <Compile Include="ConnectRangeDirection.cs" />
     <Compile Include="Direction.cs" />
+    <Compile Include="EndingMenu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EndingMenu.Designer.cs">
+      <DependentUpon>EndingMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="GameScene.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,6 +80,9 @@
     <Compile Include="White_Piece.cs">
       <SubType>Component</SubType>
     </Compile>
+    <EmbeddedResource Include="EndingMenu.resx">
+      <DependentUpon>EndingMenu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GameScene.resx">
       <DependentUpon>GameScene.cs</DependentUpon>
     </EmbeddedResource>
@@ -111,6 +120,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ending Menu.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
