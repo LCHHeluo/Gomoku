@@ -1,6 +1,6 @@
 ﻿namespace Gomoku
 {
-    partial class Form1
+    partial class GameScene
     {
         /// <summary>
         /// 設計工具所需的變數。
@@ -43,7 +43,7 @@
             this.CurrentPlayerLabel.Text = "當前玩家：黑棋";
             this.CurrentPlayerLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // Form1
+            // GameScene
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -52,7 +52,8 @@
             this.ClientSize = new System.Drawing.Size(734, 711);
             this.Controls.Add(this.CurrentPlayerLabel);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Name = "Form1";
+            this.Name = "GameScene";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "五子棋";
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);

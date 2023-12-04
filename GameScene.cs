@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace Gomoku
 {
-    public partial class Form1 : Form
+    public partial class GameScene : Form
     {
         private GameManager gm = new GameManager();
-        public Form1()
+        public GameScene()
         {
             InitializeComponent();
         }
