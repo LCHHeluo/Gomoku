@@ -58,6 +58,7 @@
     <Compile Include="EndingMenu.Designer.cs">
       <DependentUpon>EndingMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="GameMode.cs" />
     <Compile Include="GameScene.cs">
       <SubType>Form</SubType>
     </Compile>

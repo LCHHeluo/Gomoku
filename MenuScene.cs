@@ -12,7 +12,7 @@ namespace Gomoku
 {
     public partial class MenuScene : Form
     {
-        public Form gameScene;
+        private Form gameScene;
 
         public MenuScene()
         {
@@ -24,12 +24,7 @@ namespace Gomoku
             Hide();
             gameScene = new GameScene();
             gameScene.ShowDialog();
-            Close();
-        }
-
-        private void btnEndingTest_Click(object sender, EventArgs e)
-        {
-            
+            Show();
         }
     }
 }

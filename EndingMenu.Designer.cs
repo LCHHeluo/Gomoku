@@ -28,111 +28,114 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pbEndingbg = new System.Windows.Forms.PictureBox();
-            this.btnRestart = new System.Windows.Forms.Button();
-            this.btnGoToMenu = new System.Windows.Forms.Button();
-            this.btnWatchBoard = new System.Windows.Forms.Button();
-            this.btnExit = new System.Windows.Forms.Button();
-            this.lblWinner = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pbEndingbg)).BeginInit();
+            this.PbEndingbg = new System.Windows.Forms.PictureBox();
+            this.BtnRestart = new System.Windows.Forms.Button();
+            this.BtnGoToMenu = new System.Windows.Forms.Button();
+            this.BtnWatchBoard = new System.Windows.Forms.Button();
+            this.BtnExit = new System.Windows.Forms.Button();
+            this.LblWinner = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.PbEndingbg)).BeginInit();
             this.SuspendLayout();
             // 
-            // pbEndingbg
+            // PbEndingbg
             // 
-            this.pbEndingbg.Image = global::Gomoku.Properties.Resources.Ending_Menu;
-            this.pbEndingbg.Location = new System.Drawing.Point(0, 0);
-            this.pbEndingbg.Name = "pbEndingbg";
-            this.pbEndingbg.Size = new System.Drawing.Size(400, 200);
-            this.pbEndingbg.TabIndex = 0;
-            this.pbEndingbg.TabStop = false;
+            this.PbEndingbg.Image = global::Gomoku.Properties.Resources.Ending_Menu;
+            this.PbEndingbg.Location = new System.Drawing.Point(0, 0);
+            this.PbEndingbg.Name = "PbEndingbg";
+            this.PbEndingbg.Size = new System.Drawing.Size(400, 200);
+            this.PbEndingbg.TabIndex = 0;
+            this.PbEndingbg.TabStop = false;
             // 
-            // btnRestart
+            // BtnRestart
             // 
-            this.btnRestart.FlatAppearance.BorderSize = 0;
-            this.btnRestart.FlatAppearance.MouseOverBackColor = System.Drawing.Color.GreenYellow;
-            this.btnRestart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRestart.Font = new System.Drawing.Font("等距更紗黑體 TC", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnRestart.ForeColor = System.Drawing.Color.White;
-            this.btnRestart.Image = global::Gomoku.Properties.Resources.Ending_Menu;
-            this.btnRestart.Location = new System.Drawing.Point(40, 70);
-            this.btnRestart.Name = "btnRestart";
-            this.btnRestart.Size = new System.Drawing.Size(150, 50);
-            this.btnRestart.TabIndex = 1;
-            this.btnRestart.Text = "重新開始";
-            this.btnRestart.UseVisualStyleBackColor = true;
+            this.BtnRestart.FlatAppearance.BorderSize = 0;
+            this.BtnRestart.FlatAppearance.MouseOverBackColor = System.Drawing.Color.GreenYellow;
+            this.BtnRestart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnRestart.Font = new System.Drawing.Font("等距更紗黑體 TC", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.BtnRestart.ForeColor = System.Drawing.Color.White;
+            this.BtnRestart.Image = global::Gomoku.Properties.Resources.Ending_Menu;
+            this.BtnRestart.Location = new System.Drawing.Point(40, 70);
+            this.BtnRestart.Name = "BtnRestart";
+            this.BtnRestart.Size = new System.Drawing.Size(150, 50);
+            this.BtnRestart.TabIndex = 1;
+            this.BtnRestart.Text = "重新開始";
+            this.BtnRestart.UseVisualStyleBackColor = true;
             // 
-            // btnGoToMenu
+            // BtnGoToMenu
             // 
-            this.btnGoToMenu.FlatAppearance.BorderSize = 0;
-            this.btnGoToMenu.FlatAppearance.MouseOverBackColor = System.Drawing.Color.GreenYellow;
-            this.btnGoToMenu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGoToMenu.Font = new System.Drawing.Font("等距更紗黑體 TC", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnGoToMenu.ForeColor = System.Drawing.Color.White;
-            this.btnGoToMenu.Image = global::Gomoku.Properties.Resources.Ending_Menu;
-            this.btnGoToMenu.Location = new System.Drawing.Point(216, 69);
-            this.btnGoToMenu.Name = "btnGoToMenu";
-            this.btnGoToMenu.Size = new System.Drawing.Size(150, 50);
-            this.btnGoToMenu.TabIndex = 2;
-            this.btnGoToMenu.Text = "回到選單";
-            this.btnGoToMenu.UseVisualStyleBackColor = true;
+            this.BtnGoToMenu.FlatAppearance.BorderSize = 0;
+            this.BtnGoToMenu.FlatAppearance.MouseOverBackColor = System.Drawing.Color.GreenYellow;
+            this.BtnGoToMenu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnGoToMenu.Font = new System.Drawing.Font("等距更紗黑體 TC", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.BtnGoToMenu.ForeColor = System.Drawing.Color.White;
+            this.BtnGoToMenu.Image = global::Gomoku.Properties.Resources.Ending_Menu;
+            this.BtnGoToMenu.Location = new System.Drawing.Point(216, 69);
+            this.BtnGoToMenu.Name = "BtnGoToMenu";
+            this.BtnGoToMenu.Size = new System.Drawing.Size(150, 50);
+            this.BtnGoToMenu.TabIndex = 2;
+            this.BtnGoToMenu.Text = "回到選單";
+            this.BtnGoToMenu.UseVisualStyleBackColor = true;
+            this.BtnGoToMenu.Click += new System.EventHandler(this.BtnGoToMenu_Click);
             // 
-            // btnWatchBoard
+            // BtnWatchBoard
             // 
-            this.btnWatchBoard.FlatAppearance.BorderSize = 0;
-            this.btnWatchBoard.FlatAppearance.MouseOverBackColor = System.Drawing.Color.GreenYellow;
-            this.btnWatchBoard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnWatchBoard.Font = new System.Drawing.Font("等距更紗黑體 TC", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnWatchBoard.ForeColor = System.Drawing.Color.White;
-            this.btnWatchBoard.Image = global::Gomoku.Properties.Resources.Ending_Menu;
-            this.btnWatchBoard.Location = new System.Drawing.Point(40, 125);
-            this.btnWatchBoard.Name = "btnWatchBoard";
-            this.btnWatchBoard.Size = new System.Drawing.Size(150, 50);
-            this.btnWatchBoard.TabIndex = 3;
-            this.btnWatchBoard.Text = "觀看棋盤";
-            this.btnWatchBoard.UseVisualStyleBackColor = true;
+            this.BtnWatchBoard.FlatAppearance.BorderSize = 0;
+            this.BtnWatchBoard.FlatAppearance.MouseOverBackColor = System.Drawing.Color.GreenYellow;
+            this.BtnWatchBoard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnWatchBoard.Font = new System.Drawing.Font("等距更紗黑體 TC", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.BtnWatchBoard.ForeColor = System.Drawing.Color.White;
+            this.BtnWatchBoard.Image = global::Gomoku.Properties.Resources.Ending_Menu;
+            this.BtnWatchBoard.Location = new System.Drawing.Point(40, 125);
+            this.BtnWatchBoard.Name = "BtnWatchBoard";
+            this.BtnWatchBoard.Size = new System.Drawing.Size(150, 50);
+            this.BtnWatchBoard.TabIndex = 3;
+            this.BtnWatchBoard.Text = "觀看棋盤";
+            this.BtnWatchBoard.UseVisualStyleBackColor = true;
+            this.BtnWatchBoard.Click += new System.EventHandler(this.BtnWatchBoard_Click);
             // 
-            // btnExit
+            // BtnExit
             // 
-            this.btnExit.FlatAppearance.BorderSize = 0;
-            this.btnExit.FlatAppearance.MouseOverBackColor = System.Drawing.Color.GreenYellow;
-            this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExit.Font = new System.Drawing.Font("等距更紗黑體 TC", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnExit.ForeColor = System.Drawing.Color.White;
-            this.btnExit.Image = global::Gomoku.Properties.Resources.Ending_Menu;
-            this.btnExit.Location = new System.Drawing.Point(216, 125);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(150, 50);
-            this.btnExit.TabIndex = 4;
-            this.btnExit.Text = "關閉遊戲";
-            this.btnExit.UseVisualStyleBackColor = true;
+            this.BtnExit.FlatAppearance.BorderSize = 0;
+            this.BtnExit.FlatAppearance.MouseOverBackColor = System.Drawing.Color.GreenYellow;
+            this.BtnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnExit.Font = new System.Drawing.Font("等距更紗黑體 TC", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.BtnExit.ForeColor = System.Drawing.Color.White;
+            this.BtnExit.Image = global::Gomoku.Properties.Resources.Ending_Menu;
+            this.BtnExit.Location = new System.Drawing.Point(216, 125);
+            this.BtnExit.Name = "BtnExit";
+            this.BtnExit.Size = new System.Drawing.Size(150, 50);
+            this.BtnExit.TabIndex = 4;
+            this.BtnExit.Text = "關閉遊戲";
+            this.BtnExit.UseVisualStyleBackColor = true;
+            this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
-            // lblWinner
+            // LblWinner
             // 
-            this.lblWinner.AutoSize = true;
-            this.lblWinner.BackColor = System.Drawing.Color.Transparent;
-            this.lblWinner.Font = new System.Drawing.Font("等距更紗黑體 TC", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.lblWinner.ForeColor = System.Drawing.Color.White;
-            this.lblWinner.Image = global::Gomoku.Properties.Resources.Ending_Menu;
-            this.lblWinner.Location = new System.Drawing.Point(140, 25);
-            this.lblWinner.Name = "lblWinner";
-            this.lblWinner.Size = new System.Drawing.Size(119, 34);
-            this.lblWinner.TabIndex = 5;
-            this.lblWinner.Text = "黑旗勝利";
+            this.LblWinner.AutoSize = true;
+            this.LblWinner.BackColor = System.Drawing.Color.Transparent;
+            this.LblWinner.Font = new System.Drawing.Font("等距更紗黑體 TC", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.LblWinner.ForeColor = System.Drawing.Color.White;
+            this.LblWinner.Image = global::Gomoku.Properties.Resources.Ending_Menu;
+            this.LblWinner.Location = new System.Drawing.Point(140, 25);
+            this.LblWinner.Name = "LblWinner";
+            this.LblWinner.Size = new System.Drawing.Size(119, 34);
+            this.LblWinner.TabIndex = 5;
+            this.LblWinner.Text = "黑旗勝利";
             // 
             // EndingMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Transparent;
-            this.Controls.Add(this.lblWinner);
-            this.Controls.Add(this.btnExit);
-            this.Controls.Add(this.btnWatchBoard);
-            this.Controls.Add(this.btnGoToMenu);
-            this.Controls.Add(this.btnRestart);
-            this.Controls.Add(this.pbEndingbg);
+            this.Controls.Add(this.LblWinner);
+            this.Controls.Add(this.BtnExit);
+            this.Controls.Add(this.BtnWatchBoard);
+            this.Controls.Add(this.BtnGoToMenu);
+            this.Controls.Add(this.BtnRestart);
+            this.Controls.Add(this.PbEndingbg);
             this.Name = "EndingMenu";
             this.Size = new System.Drawing.Size(400, 200);
-            ((System.ComponentModel.ISupportInitialize)(this.pbEndingbg)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PbEndingbg)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -140,11 +143,11 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pbEndingbg;
-        private System.Windows.Forms.Button btnRestart;
-        private System.Windows.Forms.Button btnGoToMenu;
-        private System.Windows.Forms.Button btnWatchBoard;
-        private System.Windows.Forms.Button btnExit;
-        private System.Windows.Forms.Label lblWinner;
+        private System.Windows.Forms.PictureBox PbEndingbg;
+        private System.Windows.Forms.Button BtnRestart;
+        private System.Windows.Forms.Button BtnGoToMenu;
+        private System.Windows.Forms.Button BtnWatchBoard;
+        private System.Windows.Forms.Button BtnExit;
+        private System.Windows.Forms.Label LblWinner;
     }
 }
