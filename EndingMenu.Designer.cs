@@ -60,6 +60,7 @@
             this.BtnRestart.TabIndex = 1;
             this.BtnRestart.Text = "重新開始";
             this.BtnRestart.UseVisualStyleBackColor = true;
+            this.BtnRestart.Click += new System.EventHandler(this.BtnRestart_Click);
             // 
             // BtnGoToMenu
             // 

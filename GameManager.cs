@@ -38,7 +38,11 @@ namespace Gomoku
         {
             return board.ConnectCheck(x,y);
         }
-    
-    
+        /*
+        public void CleanBoard()
+        {
+            board.CleanBoard();
+        }
+        */
     }
 }

@@ -67,6 +67,7 @@
             this.Name = "GameScene";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "五子棋";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.GameScene_FormClosed);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GameScene_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GameScene_MouseMove);
             this.ResumeLayout(false);

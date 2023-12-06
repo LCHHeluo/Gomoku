@@ -435,6 +435,12 @@ namespace Gomoku
             }
         return PieceType.NONE;
         }
+        /*
+        public void CleanBoard()
+        {
+            piecesArr = null;
+        }
+        */
         /*除錯用
         private void BugLog(string txt,bool enable)//debug小工具
         {

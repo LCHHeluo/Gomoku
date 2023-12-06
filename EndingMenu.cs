@@ -42,6 +42,7 @@ namespace Gomoku
             
             //gameScene = FindForm();//找這個物件所處的Form
             menuScene.Show();
+            ((GameScene)ParentForm).DialogResult = DialogResult.No;
             ((GameScene)ParentForm).Close();
             ((GameScene)ParentForm).Dispose();
             
@@ -53,6 +54,15 @@ namespace Gomoku
 
             ((GameScene)ParentForm).gameMode = GameMode.Watch;
             Hide();
+        }
+
+        private void BtnRestart_Click(object sender, EventArgs e)
+        {
+            //((GameScene)ParentForm).CleanBoard();
+            ((GameScene)ParentForm).DialogResult = DialogResult.Yes;
+            menuScene.Show();
+            ((GameScene)ParentForm).Close();
+            ((GameScene)ParentForm).Dispose();
         }
     }
 }

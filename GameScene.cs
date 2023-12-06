@@ -83,5 +83,23 @@ namespace Gomoku
                 this.Cursor = Cursors.Default;
             }
         }
+
+        private void GameScene_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (gameMode != GameMode.Pause)
+            {
+                DialogResult = DialogResult.Cancel;
+            }
+            else
+            {
+                DialogResult = DialogResult.No;
+            }
+        }
+        /*
+public void CleanBoard()
+{
+   gm.CleanBoard();
+}
+*/
     }
 }
