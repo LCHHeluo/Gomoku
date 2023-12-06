@@ -14,7 +14,8 @@ namespace Gomoku
     {
         private GameManager gm = new GameManager();
         private EndingMenu usEndingMenu = new EndingMenu();
-        private GameMode gameMode = GameMode.Game;
+        public GameMode gameMode = GameMode.Game;
+        
         //private bool endFlag = false;
         public GameScene()
         {
@@ -60,11 +61,16 @@ namespace Gomoku
                         break;
                 }
             }
+            else if (gameMode == GameMode.Watch)
+            {
+                usEndingMenu.Show();
+            }
             
         }
 
         private void GameScene_MouseMove(object sender, MouseEventArgs e)
         {
+            LblTestGameMode.Text = gameMode + "Mode";//測試用
             if (gameMode == GameMode.Game)
             {
                 if (gm.CanBePlace(e.X, e.Y))

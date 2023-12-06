@@ -12,7 +12,7 @@ namespace Gomoku
 {
     public partial class EndingMenu : UserControl
     {
-        private Form gameScene;
+        //private Form gameScene;
         private Form menuScene = Application.OpenForms["MenuScene"];//找尋該程式中已經開啟的Form
         private string lblWinnerText = "";
         public string LblWinnerText
@@ -39,18 +39,20 @@ namespace Gomoku
 
         private void BtnGoToMenu_Click(object sender, EventArgs e)
         {
-            gameScene = FindForm();//找這個物件所處的Form
+            
+            //gameScene = FindForm();//找這個物件所處的Form
             menuScene.Show();
-            gameScene.Close();
-            gameScene.Dispose();
+            ((GameScene)ParentForm).Close();
+            ((GameScene)ParentForm).Dispose();
+            
+            
         }
 
         private void BtnWatchBoard_Click(object sender, EventArgs e)
         {
-            gameScene = FindForm();//找這個物件所處的Form
-            //gameMode = gameScene.gm.GameMode.Watch;
-            Hide();
 
+            ((GameScene)ParentForm).gameMode = GameMode.Watch;
+            Hide();
         }
     }
 }

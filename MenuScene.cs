@@ -13,7 +13,6 @@ namespace Gomoku
     public partial class MenuScene : Form
     {
         private Form gameScene;
-
         public MenuScene()
         {
             InitializeComponent();

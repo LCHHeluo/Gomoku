@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.CurrentPlayerLabel = new System.Windows.Forms.Label();
+            this.LblTestGameMode = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // CurrentPlayerLabel
@@ -43,6 +44,16 @@
             this.CurrentPlayerLabel.Text = "當前玩家：黑棋";
             this.CurrentPlayerLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // LblTestGameMode
+            // 
+            this.LblTestGameMode.AutoSize = true;
+            this.LblTestGameMode.Font = new System.Drawing.Font("等距更紗黑體 TC Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.LblTestGameMode.Location = new System.Drawing.Point(592, 30);
+            this.LblTestGameMode.Name = "LblTestGameMode";
+            this.LblTestGameMode.Size = new System.Drawing.Size(97, 30);
+            this.LblTestGameMode.TabIndex = 1;
+            this.LblTestGameMode.Text = "no mode";
+            // 
             // GameScene
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -50,6 +61,7 @@
             this.BackgroundImage = global::Gomoku.Properties.Resources.board;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(734, 711);
+            this.Controls.Add(this.LblTestGameMode);
             this.Controls.Add(this.CurrentPlayerLabel);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Name = "GameScene";
@@ -65,6 +77,7 @@
         #endregion
 
         private System.Windows.Forms.Label CurrentPlayerLabel;
+        private System.Windows.Forms.Label LblTestGameMode;
     }
 }
 

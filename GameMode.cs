@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Gomoku
 {
-    enum GameMode
+    public enum GameMode
     {
         Default, MainMenu, Game, Pause, Watch
     }
