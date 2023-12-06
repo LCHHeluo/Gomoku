@@ -84,14 +84,24 @@ namespace Gomoku
             }
         }
 
+        //視窗關閉事件
         private void GameScene_FormClosed(object sender, FormClosedEventArgs e)
         {
+            //視窗直接關閉時因為無法回傳DialogResult，所以要用這個方法強制回傳
             if (gameMode != GameMode.Pause)
             {
+                /*
+                如果不是在EndingMenu跳出來前就按了關閉視窗，就會回傳Cancel
+                直接關閉整個程式
+                */
                 DialogResult = DialogResult.Cancel;
             }
             else
             {
+                /*
+                如果是在EndingMenu跳出來後才按了關閉視窗(包含回到主選單等任何
+                方式)，就會回傳No，只關閉GameScene
+                */
                 DialogResult = DialogResult.No;
             }
         }
